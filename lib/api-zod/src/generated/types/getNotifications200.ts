@@ -5,7 +5,8 @@
  * BidRush Auction Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { Notification } from "./notification";
 
-export interface HealthStatus {
-  status: string;
-}
+export type GetNotifications200 = {
+  notifications: Notification[];
+};

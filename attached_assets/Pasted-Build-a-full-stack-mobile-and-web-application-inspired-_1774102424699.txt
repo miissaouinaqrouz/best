@@ -1,0 +1,98 @@
+Build a full-stack mobile and web application inspired by an online auction / bidding platform like BestBid.
+
+🎯 Core Concept:
+The app allows users to create auctions, place bids in real time, and win products/services. It should feel modern, fast, and competitive.
+
+🧩 Main Features:
+
+1. Authentication
+- Email/password login & signup
+- Social login (Google optional)
+- User profile with avatar, rating, and history
+
+2. Auction System
+- Users can create auctions:
+  - Title
+  - Description
+  - Images
+  - Starting price
+  - Minimum increment
+  - End time (countdown)
+- Auctions can be:
+  - Live (ongoing)
+  - Scheduled
+  - Ended
+
+3. Bidding System (REAL-TIME)
+- Users can place bids
+- Show current highest bid
+- Prevent lower bids
+- Real-time updates using WebSockets or Firebase
+- Auto-refresh UI instantly
+
+4. Winning Logic
+- Highest bidder when time ends wins
+- Notify winner and seller
+- Show “Winning” badge
+
+5. Notifications
+- Outbid notification
+- Auction ending soon
+- Winning notification
+
+6. Dashboard
+- My bids
+- My auctions
+- Won items
+- Lost items
+
+7. Search & Filters
+- Search auctions
+- Filter by category, price, status
+
+8. Admin Panel
+- Manage users
+- Manage auctions
+- Moderate content
+
+🎨 UI/UX Requirements:
+- Modern, clean design (similar to top marketplace apps)
+- Dark/light mode
+- Mobile-first responsive design
+- Smooth animations for bidding updates
+- Countdown timers visible on cards
+
+⚙️ Tech Stack (suggested):
+Frontend:
+- React Native (Expo) for mobile
+- Next.js for web (optional)
+- Tailwind or modern UI library
+
+Backend:
+- Node.js (Express)
+- MongoDB
+- WebSockets (Socket.io) OR Firebase Realtime
+
+Other:
+- Cloud storage for images (Cloudinary or S3)
+- Push notifications (Firebase)
+
+📱 Screens to Generate:
+- Splash screen
+- Login / Signup
+- Home (auction list)
+- Auction details (with live bidding)
+- Create auction
+- Profile / Dashboard
+- Notifications
+
+💡 Extra Features (optional but valuable):
+- Auto-bidding system
+- Payment integration (Stripe)
+- Ratings & reviews
+- Anti-sniping (extend time if bid in last seconds)
+
+🎯 Goal:
+Generate a complete MVP with clean architecture, scalable backend, and production-ready UI components.
+
+Make sure the code is modular, well-structured, and easy to extend.

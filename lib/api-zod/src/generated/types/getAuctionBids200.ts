@@ -5,7 +5,8 @@
  * BidRush Auction Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { Bid } from "./bid";
 
-export interface HealthStatus {
-  status: string;
-}
+export type GetAuctionBids200 = {
+  bids: Bid[];
+};
