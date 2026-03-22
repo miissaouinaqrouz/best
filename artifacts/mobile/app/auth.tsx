@@ -33,9 +33,9 @@ export default function AuthScreen() {
     try {
       let result;
       if (mode === 'login') {
-        result = await login({ loginRequest: { email, password } });
+        result = await login({ email, password });
       } else {
-        result = await register({ registerRequest: { name, email, password } });
+        result = await register({ name, email, password });
       }
       await authLogin(result.token, result.user as any);
       if (Platform.OS !== 'web') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
