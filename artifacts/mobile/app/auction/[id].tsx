@@ -16,6 +16,7 @@ import Colors from '@/constants/colors';
 import BidButton from '@/components/BidButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAuction, placeBid } from '@workspace/api-client-react';
+import { useAuctionSocket } from '@/hooks/useAuctionSocket';
 
 const { width } = Dimensions.get('window');
 
@@ -66,8 +67,14 @@ export default function AuctionDetailScreen() {
   const { data: auction, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['auction', id],
     queryFn: () => getAuction(id!),
-    refetchInterval: 5000,
+    refetchInterval: 15000,
     enabled: !!id,
+  });
+
+  useAuctionSocket(id ?? null, () => {
+    priceScale.value = withSpring(1.15, { damping: 6 }, () => {
+      priceScale.value = withSpring(1, { damping: 10 });
+    });
   });
 
   const bidMutation = useMutation({

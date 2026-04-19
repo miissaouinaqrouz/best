@@ -87,6 +87,17 @@ router.get("/me/won", requireAuth, async (req: AuthRequest, res) => {
   }
 });
 
+router.post("/me/push-token", requireAuth, async (req: AuthRequest, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) { res.status(400).json({ error: "token required" }); return; }
+    await db.update(usersTable).set({ pushToken: token }).where(eq(usersTable.id, req.userId!));
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.params.id));

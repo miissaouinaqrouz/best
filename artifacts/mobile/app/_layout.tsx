@@ -12,9 +12,12 @@ import React, { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { setBaseUrl } from "@workspace/api-client-react";
+import { Platform } from "react-native";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
+import { useGlobalAuctionSocket } from "@/hooks/useAuctionSocket";
 
 setBaseUrl(`https://${process.env.EXPO_PUBLIC_DOMAIN}`);
 
@@ -26,16 +29,40 @@ const queryClient = new QueryClient({
   },
 });
 
+function AppServices() {
+  const { token } = useAuth();
+
+  useGlobalAuctionSocket();
+
+  usePushNotifications(async (pushToken) => {
+    if (!token) return;
+    try {
+      const { customFetch } = await import("@workspace/api-client-react");
+      await customFetch("/api/users/me/push-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ token: pushToken }),
+      });
+    } catch (_) {}
+  });
+
+  return null;
+}
+
 function RootLayoutNav() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="auth" options={{ headerShown: false, presentation: "modal" }} />
-      <Stack.Screen name="auction/[id]" options={{ headerShown: false }} />
-      <Stack.Screen name="create-auction" options={{ headerShown: false, presentation: "modal" }} />
-      <Stack.Screen name="notifications" options={{ headerShown: false }} />
-      <Stack.Screen name="admin" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      <AppServices />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="auth" options={{ headerShown: false, presentation: "modal" }} />
+        <Stack.Screen name="auction/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="create-auction" options={{ headerShown: false, presentation: "modal" }} />
+        <Stack.Screen name="notifications" options={{ headerShown: false }} />
+        <Stack.Screen name="admin" options={{ headerShown: false }} />
+        <Stack.Screen name="payment" options={{ headerShown: false, presentation: "modal" }} />
+      </Stack>
+    </>
   );
 }
 

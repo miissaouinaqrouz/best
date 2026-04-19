@@ -12,6 +12,7 @@ export const usersTable = pgTable("users", {
   totalSales: integer("total_sales").notNull().default(0),
   totalPurchases: integer("total_purchases").notNull().default(0),
   isAdmin: boolean("is_admin").notNull().default(false),
+  pushToken: text("push_token"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
