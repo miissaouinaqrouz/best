@@ -59,7 +59,7 @@ export default function CreateAuctionScreen() {
   const [error, setError] = useState('');
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: createAuction,
+    mutationFn: (data: Parameters<typeof createAuction>[0]) => createAuction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auctions'] });
       queryClient.invalidateQueries({ queryKey: ['my-auctions'] });
@@ -87,16 +87,14 @@ export default function CreateAuctionScreen() {
 
     try {
       await mutateAsync({
-        createAuctionRequest: {
-          title: title.trim(),
-          description: description.trim(),
-          images: imageUrls.length > 0 ? imageUrls : [],
-          category,
-          startingPrice: price,
-          minimumIncrement: parseFloat(minIncrement) || 1,
-          startTime: startNow ? startTime.toISOString() : new Date(Date.now() + 86400000).toISOString(),
-          endTime: endTime.toISOString(),
-        },
+        title: title.trim(),
+        description: description.trim(),
+        images: imageUrls.length > 0 ? imageUrls : [],
+        category,
+        startingPrice: price,
+        minimumIncrement: parseFloat(minIncrement) || 1,
+        startTime: startNow ? startTime.toISOString() : new Date(Date.now() + 86400000).toISOString(),
+        endTime: endTime.toISOString(),
       });
       if (Platform.OS !== 'web') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();

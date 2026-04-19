@@ -121,7 +121,7 @@ router.get("/", optionalAuth, async (req: AuthRequest, res) => {
 router.post("/", requireAuth, async (req: AuthRequest, res) => {
   try {
     const { title, description, images, category, startingPrice, minimumIncrement, startTime, endTime } = req.body;
-    if (!title || !description || !category || !startingPrice || !endTime) {
+    if (!title || !description || !category || startingPrice == null || !endTime) {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
